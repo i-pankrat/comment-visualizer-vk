@@ -1,9 +1,9 @@
 from utils import parse_post_link
 from models import NeuralNetworkmanager, VKAPI, KeyWordsGetter
-from config import secret_key, vk_api_version
+from config import VK_ACCESS_TOKEN, vk_api_version
 
 # models
-vk = VKAPI(access_token=secret_key, version=vk_api_version)
+vk = VKAPI(access_token=VK_ACCESS_TOKEN, version=vk_api_version)
 neural_networks = NeuralNetworkmanager()
 kw_getter = KeyWordsGetter()
 
