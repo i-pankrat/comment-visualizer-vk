@@ -1,22 +1,28 @@
 from os.path import exists, join
 
 import streamlit as st
+from torch import cuda
 
-from CommentVisualizerLib import generate_image
+from CommentVisualizerLib import CommentVisualizer
 from config import ROOT_DIR
-
-user_image = join(ROOT_DIR, "image", "user_image.png")
-pre_image = join(ROOT_DIR, "image", "preview_image.png")
 
 def change_images(placeholder, newimage):
     placeholder.empty()
     placeholder.image(newimage)
 
 def main():
+    # Paths to stored images
+    user_image = join(ROOT_DIR, "image", "user_image.png")
+    pre_image = join(ROOT_DIR, "image", "preview_image.png")
+
     # Title
     st.title("Your comments visualization!")
     placeholder = st.empty()
-    placeholder.image(pre_image)
+
+    if exists(user_image):
+        placeholder.image(user_image)
+    else:
+        placeholder.image(pre_image)
 
     # Sidebar
     st.sidebar.title('Comment Visualizer')
@@ -31,11 +37,23 @@ def main():
     # Generate image button
     if get_button:
         try:
+            if device == "cuda" and not cuda.is_available():
+                raise Exception("Cuda is not available")
+
+            # Initiate neural networks and save them in a session to avoid reinitialization on each request
+            with st.spinner("Initializing neural networks..."):
+                if "CommentVisualizer" not in st.session_state:
+                    st.session_state.CommentVisualizer = CommentVisualizer()
+
             with st.spinner("Generating image..."):
-                generate_image(post_url=post_link, device=device, file_name=user_image, steps=steps, height=height, width=width)
+                image = st.session_state.CommentVisualizer.generate_image(post_url=post_link, device=device, steps=steps, height=height, width=width)
+                image.save(f"{user_image}")
+
             change_images(placeholder, user_image)
+
         except Exception as e:
-            change_images(placeholder, pre_image)
+            img_name = user_image if exists(user_image) else pre_image
+            change_images(placeholder, img_name)
             st.error(str(e))
 
     # Download image button, exists when a user image is generated
