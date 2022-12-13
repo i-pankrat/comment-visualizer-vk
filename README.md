@@ -1,5 +1,11 @@
 # comment-visualizer-vk
 
+Run tests
+
+``` shell
+python -m tests.utilsTests
+```
+
 How to launch:
 
 1. Clone reopsiroty
