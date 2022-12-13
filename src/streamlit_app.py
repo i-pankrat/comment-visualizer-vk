@@ -6,9 +6,11 @@ from torch import cuda
 from CommentVisualizerLib import CommentVisualizer
 from config import ROOT_DIR
 
+
 def change_images(placeholder, newimage):
     placeholder.empty()
     placeholder.image(newimage)
+
 
 def main():
     # Paths to stored images
@@ -25,14 +27,16 @@ def main():
         placeholder.image(pre_image)
 
     # Sidebar
-    st.sidebar.title('Comment Visualizer')
-    st.sidebar.markdown('Visualize your comments!')
+    st.sidebar.title("Comment Visualizer")
+    st.sidebar.markdown("Visualize your comments!")
     device = st.sidebar.selectbox("Device", ["Cuda", "CPU"]).lower()
-    post_link = st.sidebar.text_input('Post link')
-    steps = st.sidebar.slider('Steps for processing', min_value=1, max_value=100, value=50)
-    height = st.sidebar.slider('Height', min_value=32, max_value=1024, value=512)
-    width = st.sidebar.slider('Width', min_value=32, max_value=1024, value=512)
-    get_button = st.sidebar.button('Get image')
+    post_link = st.sidebar.text_input("Post link")
+    steps = st.sidebar.slider(
+        "Steps for processing", min_value=1, max_value=100, value=50
+    )
+    height = st.sidebar.slider("Height", min_value=32, max_value=1024, value=512)
+    width = st.sidebar.slider("Width", min_value=32, max_value=1024, value=512)
+    get_button = st.sidebar.button("Get image")
 
     # Generate image button
     if get_button:
@@ -46,7 +50,13 @@ def main():
                     st.session_state.CommentVisualizer = CommentVisualizer()
 
             with st.spinner("Generating image..."):
-                image = st.session_state.CommentVisualizer.generate_image(post_url=post_link, device=device, steps=steps, height=height, width=width)
+                image = st.session_state.CommentVisualizer.generate_image(
+                    post_url=post_link,
+                    device=device,
+                    steps=steps,
+                    height=height,
+                    width=width,
+                )
                 image.save(f"{user_image}")
 
             change_images(placeholder, user_image)
@@ -64,6 +74,7 @@ def main():
                 data=fp,
                 file_name=user_image,
             )
+
 
 if __name__ == "__main__":
     main()

@@ -2,16 +2,17 @@ from utils import parse_post_link
 from models import NeuralNetworkManager, VKAPI, KeyWordsGetter
 from config import VK_ACCESS_TOKEN, vk_api_version
 
+
 def get_comments_from_json(comments_json):
     comments = []
-    for comment in comments_json['response']['items']:
-        text = comment['text'].replace("\n", "")
+    for comment in comments_json["response"]["items"]:
+        text = comment["text"].replace("\n", "")
         comments.append(text)
 
     return ", ".join(comments)
 
-class CommentVisualizer:
 
+class CommentVisualizer:
     def __init__(self):
         self.vkapi = VKAPI(access_token=VK_ACCESS_TOKEN, version=vk_api_version)
         self.neural_networks = NeuralNetworkManager()
@@ -21,14 +22,14 @@ class CommentVisualizer:
 
         # Send VK API request
         owner_id, post_id = parse_post_link(post_url)
-        params = {'owner_id': owner_id, 'post_id': post_id}
+        params = {"owner_id": owner_id, "post_id": post_id}
         response = self.vkapi.get_comments(params)
 
         # Process JsonResponse
         if "response" in response:
             comments = get_comments_from_json(response)
         else:
-            raise Exception(response['error']['error_msg'])
+            raise Exception(response["error"]["error_msg"])
         if not comments:
             raise Exception("Post has zero comments :(")
 

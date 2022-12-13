@@ -1,8 +1,8 @@
 import unittest
 from src.utils import parse_post_link
 
-class TestParser(unittest.TestCase):
 
+class TestParser(unittest.TestCase):
     def test_post_link_parse_case1(self):
         init_owner_id = "394467984"
         init_post_id = "394467984"
@@ -24,5 +24,6 @@ class TestParser(unittest.TestCase):
         with self.assertRaises(Exception):
             _, _ = parse_post_link(invalid_url)
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     unittest.main()
