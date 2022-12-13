@@ -5,3 +5,4 @@ streamlit==1.15.2
 textacy
 transformers==4.25.1
 sentencepiece
+pytest
