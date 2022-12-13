@@ -1,5 +1,5 @@
 import unittest
-from utils import parse_post_link
+from src.utils import parse_post_link
 
 class TestParser(unittest.TestCase):
 
