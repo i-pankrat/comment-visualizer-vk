@@ -27,7 +27,10 @@ pip install -r requirements.txt
 ``` shell
 huggingface-cli login
 ```
-6. Insert your personal or service token in config.py
+6. Add your vk access token to your environment variable. Create an application in vk to get the access token. You can create app [here](https://vk.com/editapp?act=create). Then go to setttings of the created app and find the 'Service token' there. That's what you need to put insted of YOUR_ACESS_TOKEN in the command below.
+``` shell
+export VK_ACCESS_TOKEN=YOUR_ACESS_TOKEN
+```
 7. Start the application!
 ``` shell
 cd src/
