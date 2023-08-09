@@ -1,12 +1,14 @@
-# comment-visualizer-vk
+# About
 
-Run tests
+The app takes a link to a VKontakte post and visualizes its comments using a model from [Hugging Face](https://huggingface.co/).
+
+# Run tests
 
 ``` shell
 python -m tests.utilsTests
 ```
 
-How to launch:
+# How to launch:
 
 1. Clone reopsiroty
 ``` shell
